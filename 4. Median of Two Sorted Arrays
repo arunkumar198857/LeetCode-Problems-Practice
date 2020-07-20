@@ -1,0 +1,29 @@
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        
+        if(n1<n2)
+            return findMedianSortedArrays(nums2, nums1);
+        
+        int low = 0, high = n2 * 2;
+        while(low <= high){
+            int partitionY = (low + high) / 2;
+            int partitionX = n1 + n2 - partitionY;
+            
+            double xLeftMin = (partitionX == 0)? Integer.MIN_VALUE : nums1[(partitionX-1)/2];
+            double yLeftMin = (partitionY == 0)? Integer.MIN_VALUE : nums2[(partitionY-1)/2];
+            double xRightMax = (partitionX == n1*2)? Integer.MAX_VALUE : nums1[(partitionX)/2];
+            double yRightMax = (partitionY == n2*2)? Integer.MAX_VALUE : nums2[(partitionY)/2];
+            
+            if(xLeftMin > yRightMax)
+                low = partitionY + 1;
+            else if(yLeftMin > xRightMax)
+                high = partitionY - 1;
+            else{
+                return (Math.max(xLeftMin, yLeftMin)+Math.min(xRightMax, yRightMax))/2;
+            }   
+        }
+        return -1;
+    }
+}
