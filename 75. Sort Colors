@@ -1,0 +1,62 @@
+class Solution {
+    public void sortColors(int[] nums) {
+        
+            if(nums == null || nums.length < 1 )
+                return;
+            
+        int start = 0;
+        int end = nums.length - 1;
+        int index = 0;
+        
+        while(index <= end && start < end){
+            if(nums[index] == 0){
+                nums[index] = nums[start];
+                nums[start] = 0;
+                start++; index++;
+            }
+            else if(nums[index] == 2){
+                nums[index] = nums[end];
+                nums[end] = 2;
+                end--;
+            }
+            else
+                index++;
+        }
+            
+    }
+}
+
+
+
+//Generalized algo for n colors.
+public static void sortColors(int[] nums) {
+        
+        //BETTER THAN LEETCODE
+
+        if(nums == null || nums.length < 1 )
+            return;
+        int j;
+        int current_color = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] != current_color){
+                j = i+1;
+                while(j < nums.length){
+                    if(j == nums.length - 1){
+                        current_color++;
+                        break;
+                    }
+                    else if(nums[j] == current_color){
+                        break;
+                    }
+                    else j++;
+                }
+                    int temp = nums[j];
+                    nums[j] = nums[i];
+                    nums[i] = temp;
+            }          
+        }
+
+        System.out.print("\n OUTPUT: ");
+        for(int num:nums)
+            System.out.print(num+" ");
+    }
