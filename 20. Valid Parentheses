@@ -1,0 +1,36 @@
+class Solution {
+    
+    public char giveStartCharacter(char x){
+        char lastCharacter = ' ';
+        if(x == ')') lastCharacter = '(';
+        else if(x == ']') lastCharacter = '[';
+        else lastCharacter = '{';
+        return lastCharacter;
+    }
+    
+    public boolean isValid(String s) {
+        
+        if(s.length() == 0)
+           return true;
+        
+        if(s == null || s.length() % 2 != 0)
+            return false;
+        
+        Stack<Character> stack = new Stack<>();
+        char lastCharacter = ' ';
+        
+        for(int i = 0; i < s.length(); i++){
+            char x = s.charAt(i);
+            
+            if(x == '(' || x == '[' || x == '{'){
+                stack.push(x);
+            }
+            else{
+                char top = stack.empty() ? '$' : stack.pop(); 
+                if(top != giveStartCharacter(x))
+                    return false;
+            }
+        }
+        return stack.empty();
+    }
+}
