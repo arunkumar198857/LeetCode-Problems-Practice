@@ -1,0 +1,26 @@
+class Solution {
+    public int uniquePathsWithObstacles(int[][] gridInput) {
+        if(gridInput == null)
+            return -1;
+        
+        int grid[][] = new int[gridInput.length][gridInput[0].length];
+        
+        for(int i=0; i < grid.length && gridInput[i][0] != 1; i++){
+            grid[i][0] = 1;
+        }
+            
+        for(int j=0; j < grid[0].length && gridInput[0][j]!= 1; j++){
+            grid[0][j] = 1;
+        }
+        
+        for(int i = 1; i < grid.length; i++){
+            for(int j = 1; j < grid[i].length; j++){ 
+                if(gridInput[i][j] != 1){
+                    grid[i][j] = grid[i][j-1] + grid[i-1][j];
+                }
+            }
+        }
+        
+        return grid[grid.length - 1][grid[0].length - 1];   
+    }
+}
