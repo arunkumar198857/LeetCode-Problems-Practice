@@ -1,0 +1,33 @@
+class Solution {
+    public int[][] kClosest(int[][] points, int K) {
+        int[][] res = new int[K][2];
+        
+        if(points == null || points.length < 1)
+            return res;
+        
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+        int k = 0;
+        for(int i = 0; i < points.length; i++){
+            int distance = (points[i][0]*points[i][0] + points[i][1]*points[i][1]);
+            hashMap.put(i, distance);  
+        }
+        
+        PriorityQueue<Integer> heap = new PriorityQueue<Integer>(
+                    (a,b) -> hashMap.get(b) - hashMap.get(a));
+        
+        for(int i = 0; i< points.length; i++){
+            heap.add(i);
+            if(heap.size() > K)
+                heap.poll();
+        }
+        
+        int j = 0;
+        while(!heap.isEmpty()){
+            int index = heap.poll();
+            res[j][0] = points[index][0];
+            res[j][1] = points[index][1];
+            j++;
+        }
+        return res;
+    }
+}
