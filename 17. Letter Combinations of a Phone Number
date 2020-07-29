@@ -1,0 +1,38 @@
+class Solution {
+    public List<String> letterCombinations(String digits) {
+
+        List<String> result = new ArrayList<>();
+        if(digits == null || digits.length() < 1)
+            return result;
+        
+        HashMap<Integer, String> hashMap = new HashMap<>();
+        hashMap.put(0,"");
+        hashMap.put(1,"");
+        hashMap.put(2,"abc");
+        hashMap.put(3,"def");
+        hashMap.put(4,"ghi");
+        hashMap.put(5,"jkl");
+        hashMap.put(6,"mno");
+        hashMap.put(7,"pqrs");
+        hashMap.put(8,"tuv");
+        hashMap.put(9,"wxyz");
+        
+        dfs(result, digits, "", 0, hashMap);
+        return result;
+    }
+    
+    public void dfs(List<String> result, String digits, 
+                          String current, int index, HashMap<Integer, String> mapping)
+    {
+        if(index == digits.length()){
+            result.add(current);
+            return;
+        }
+        
+        String letters = mapping.get(digits.charAt(index) - '0');
+        for(int i = 0; i < letters.length(); i++){
+            dfs(result, digits, current + letters.charAt(i), index + 1, mapping);
+        }
+        
+    }
+}
