@@ -1,0 +1,42 @@
+class Solution {
+    public String reorganizeString(String S) {
+        StringBuilder res = new StringBuilder();
+        
+        if(S == null || S.length() < 1)
+            return res.toString();
+        
+        HashMap<Character, Integer> hashMap = new HashMap<>();
+        for(int i = 0 ; i < S.length(); i++){
+            if(!hashMap.containsKey(S.charAt(i)))
+                hashMap.put(S.charAt(i), 1);
+            else
+                hashMap.put(S.charAt(i), hashMap.get(S.charAt(i))+1);
+        }
+        
+        PriorityQueue<Character> maxHeap = new PriorityQueue<>(( a , b ) -> hashMap.get(b) - hashMap.get(a));
+        
+        maxHeap.addAll(hashMap.keySet());
+        
+        while(maxHeap.size() > 1){
+            
+            char current = maxHeap.remove();
+            char next = maxHeap.remove();
+            res.append(current);
+            res.append(next);
+            hashMap.put(current, hashMap.get(current) - 1);
+            hashMap.put(next, hashMap.get(next) - 1);
+            if(hashMap.get(current) > 0)
+                maxHeap.add(current);
+            if(hashMap.get(next) > 0)
+                maxHeap.add(next);
+        }
+        
+        if(!maxHeap.isEmpty()){
+            char last = maxHeap.remove();
+            if(hashMap.get(last) > 1)
+                return "";
+            res.append(last); 
+        }
+        return res.toString();
+    }
+}
