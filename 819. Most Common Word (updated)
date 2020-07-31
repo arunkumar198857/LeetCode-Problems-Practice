@@ -1,0 +1,31 @@
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+        
+        
+        HashSet<String> set = new HashSet<>();
+        for(String str : banned)
+            set.add(str);
+        
+        String p = paragraph.replaceAll("[^a-zA-Z0-9 ]", " ");
+        p = p.toLowerCase();
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        
+        String[] para = p.split("\\s+");
+        
+        int max_occurance = 0;
+        String res = "";
+        for(String word : para){
+            if(!set.contains(word)){
+                map.put(word, map.getOrDefault(word, 0)+1);
+                max_occurance = Math.max(max_occurance, map.get(word));
+            }
+        }
+        
+        for(String str : map.keySet()){
+            if(map.get(str) == max_occurance)
+                res = str;
+        }
+        
+        return res;
+    }
+}
