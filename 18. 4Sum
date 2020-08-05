@@ -1,0 +1,30 @@
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        
+        List<List<Integer>> result = new ArrayList<>();
+        
+        if(nums == null || nums.length < 4)
+            return result;
+        
+        Arrays.sort(nums);
+        
+        for(int j = 0; j < nums.length; j++){
+            for(int i = j+1; i < nums.length; i++){
+                int low = i + 1, high = nums.length - 1;
+
+                while(low < high){
+                    int sum = nums[j] + nums[i] + nums[low] + nums[high];
+                    if(sum == target){
+                        if(!result.contains(Arrays.asList(nums[j], nums[i], nums[low], nums[high])))
+                            result.add(Arrays.asList(nums[j], nums[i], nums[low], nums[high]));
+                    }
+                    if(sum < target)
+                        low++;
+                    else 
+                        high--;
+                }
+            }   
+        }
+        return result;
+    }
+}
