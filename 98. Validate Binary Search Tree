@@ -1,0 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        
+        Stack<TreeNode> stack = new Stack<>();
+        double last_val = -Double.MAX_VALUE;
+        
+        while(!stack.isEmpty() || root != null){
+            
+            while(root != null){
+                stack.push(root);
+                root = root.left;
+            }
+            
+            root = stack.pop();
+            if(root.val <= last_val)    //at any point of time, if the current value is leff than or equal
+                return false;           //to the last value then returh false because inorder returns
+            last_val = root.val;        //the values in non-increasing order if it's a valis BST.
+            root = root.right;
+        }
+        return true;
+    }
+}
