@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    
+    Map<TreeNode, TreeNode> map = new HashMap<>();
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
+        createHashMap(root);
+        
+        List<Integer> result = new ArrayList<>();
+        Set<TreeNode> seen = new HashSet<>();
+        Queue<TreeNode> queue = new LinkedList();
+        seen.add(target);
+        queue.add(target);
+        int i = 0;
+        
+        while(!queue.isEmpty() && i < K){
+            int size = queue.size();
+            
+            for(int x = 0; x < size; x++){
+                TreeNode temp = queue.poll();
+                    
+                if(temp.left != null && !seen.contains(temp.left)){
+                    seen.add(temp.left);
+                    queue.add(temp.left);
+                }
+                if(temp.right != null && !seen.contains(temp.right)){
+                    seen.add(temp.right);
+                    queue.add(temp.right);
+                }
+                if(map.get(temp) != null && !seen.contains(map.get(temp))){
+                    seen.add(map.get(temp));
+                    queue.add(map.get(temp));
+                }
+            }
+            i++;
+        }
+        
+        while(!queue.isEmpty())
+            result.add(queue.poll().val);
+        
+        return result;
+        
+    }
+    
+    public void createHashMap(TreeNode root){
+        
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        map.put(root, null);
+        
+        while(!q.isEmpty()){
+            for(int i = 0; i < q.size(); i++){
+                TreeNode temp = q.poll();
+                
+                if(temp.left != null){
+                    map.put(temp.left, temp);
+                    q.add(temp.left);
+                }
+                if(temp.right != null){
+                    map.put(temp.right, temp);
+                    q.add(temp.right);
+                }
+            }
+        }
+    }
+}
