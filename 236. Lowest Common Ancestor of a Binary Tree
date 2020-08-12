@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null)
+            return root;
+        
+        Queue<TreeNode> queue = new LinkedList<>();
+        Map<TreeNode, TreeNode> parent = new HashMap<>();
+        
+        queue.add(root);
+        parent.put(root, null);
+        
+        while(!parent.containsKey(p) || !parent.containsKey(q)){
+            
+            TreeNode temp = queue.poll();
+            
+            if(temp.left != null){
+                parent.put(temp.left, temp);
+                queue.add(temp.left);
+            }
+            
+            if(temp.right != null){
+                parent.put(temp.right, temp);
+                queue.add(temp.right);
+            }
+        }
+        
+        Set<TreeNode> ancestors = new HashSet<>();
+        
+        while(p != null){
+            ancestors.add(p);
+            p = parent.get(p);
+        }
+        
+        while(!ancestors.contains(q))
+            q = parent.get(q);
+        
+        return q;
+    }
+}
