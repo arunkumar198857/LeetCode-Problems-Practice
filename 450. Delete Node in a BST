@@ -1,0 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        
+        if(root == null)
+            return root;
+        
+        TreeNode temp = root;
+        TreeNode parent = null;
+        
+        while(temp != null && temp.val != key){
+            parent = temp;
+            if(temp.val > key)
+                temp = temp.left;
+            else if(temp.val < key)
+                temp = temp.right;
+        }
+        
+        if(parent == null)
+            return deleteRoot(temp);
+        if(parent.left == temp)
+            parent.left = deleteRoot(temp);
+        else
+            parent.right = deleteRoot(temp);
+        
+        return root;
+        
+    }
+    
+    public TreeNode deleteRoot(TreeNode root){
+        
+        if(root == null)    return null;
+        if(root.left == null)   return root.right;
+        if(root.right == null)  return root.left;
+        
+        TreeNode leftMost = root.right;
+        TreeNode parent = null;
+        while(leftMost.left != null){
+            parent = leftMost;
+            leftMost = leftMost.left;
+        }
+        
+        leftMost.left = root.left;
+        if(root.right != leftMost) {
+            parent.left = leftMost.right;
+            leftMost.right = root.right;
+        }
+        return leftMost;
+    }
+}
