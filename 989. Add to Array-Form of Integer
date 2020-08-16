@@ -1,0 +1,16 @@
+class Solution {
+    public List<Integer> addToArrayForm(int[] A, int K) {
+        
+        List<Integer> result = new ArrayList<>();
+        int len = A.length - 1;
+        int sum = K;
+        
+        while(sum > 0 || len >= 0){
+            sum += len >= 0 ? A[len] : 0;
+            result.add(0, sum % 10);
+            sum /= 10;
+            len--;
+        } 
+        return result;
+    }
+}
