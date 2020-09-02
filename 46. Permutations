@@ -1,0 +1,23 @@
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(nums == null || nums.length < 1) return result;
+        ArrayList<Integer> current = new ArrayList<>();
+        helper(result, current, nums);
+        return result;
+    }
+    
+    public void helper(List<List<Integer>> result, ArrayList<Integer> current, int[] num){
+        
+        if(current.size() == num.length)
+            result.add(new ArrayList<>(current));
+        else{
+            for(int i = 0; i < num.length; i++){
+                if(current.contains(num[i]))   continue;
+                current.add(num[i]);
+                helper(result, current, num);
+                current.remove(current.size() - 1);
+            }   
+        }
+    }
+}
