@@ -1,0 +1,66 @@
+class BSTIterator {
+    
+    PriorityQueue<TreeNode> heap = new PriorityQueue<>((a,b) -> Integer.compare(a.val, b.val));
+    public BSTIterator(TreeNode root) {
+        makeHeap(root);
+    }
+    
+    void makeHeap(TreeNode root){
+        if(root == null)
+            return;
+        makeHeap(root.left);
+        heap.add(root);
+        makeHeap(root.right);
+    }
+    
+    /** @return the next smallest number */
+    public int next() {
+        if(heap.size() > 0)
+            return heap.poll().val;
+        else return 0;
+    }
+    
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        if(heap.size() > 0)
+            return true;
+        else return false;
+    }
+}
+
+
+
+2. little optimal
+class BSTIterator {
+    
+    Stack<TreeNode> stack;
+    public BSTIterator(TreeNode root) {
+        this.stack = new Stack<TreeNode>();
+        
+        this.leftMostInorder(root);
+    }
+    
+    void leftMostInorder(TreeNode root){
+        if(root == null)
+            return;
+        while(root != null){
+            stack.push(root);
+            root = root.left;
+        }
+    }
+    
+    /** @return the next smallest number */
+    public int next() {
+        TreeNode current = stack.pop();
+        if(current.right != null)
+            this.leftMostInorder(current.right);
+        return current.val;
+    }
+    
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        if(this.stack.size() > 0)
+            return true;
+        return false;
+    }
+}
