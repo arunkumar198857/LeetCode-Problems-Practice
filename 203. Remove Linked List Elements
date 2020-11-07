@@ -1,0 +1,17 @@
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if(head == null)
+            return null;
+        
+        ListNode temp = head;
+        ListNode slow_ptr = null;
+        while(head != null){
+            if(head.val == val){
+                slow_ptr.next = slow_ptr.next.next;
+            }
+            slow_ptr = head;
+            head = head.next;
+        }
+        return temp;
+    }
+} 
