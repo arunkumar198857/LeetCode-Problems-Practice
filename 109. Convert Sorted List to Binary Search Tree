@@ -1,0 +1,36 @@
+class Solution {
+    
+    public ArrayList<Integer> convertToList(ListNode head){
+        ArrayList<Integer> result = new ArrayList<>();
+        while(head != null){
+            result.add(head.val);
+            head = head.next;
+        }
+        return result;
+    }
+    
+    public TreeNode convertToBST(ArrayList<Integer> list, int start, int end){
+        if(start > end)
+            return null;
+        
+        int mid = start + (end - start)/2;
+        TreeNode node = new TreeNode(list.get(mid));
+        
+        if(start == end)
+            return node;
+        
+        node.left = convertToBST(list, start, mid-1);
+        node.right = convertToBST(list, mid+1, end);
+        return node;
+    }
+    
+    public TreeNode sortedListToBST(ListNode head) {
+        
+        if(head == null)
+            return null;
+        
+        ArrayList<Integer> list = convertToList(head);
+        
+        return convertToBST(list, 0, list.size() - 1);
+    }
+}
