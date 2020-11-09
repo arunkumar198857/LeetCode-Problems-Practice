@@ -1,0 +1,29 @@
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        int[] seen = new int[26], last = new int[26];
+        Stack<Integer> stack = new Stack<>();
+        
+        for(int i = 0; i < s.length(); i++)
+            last[s.charAt(i) - 'a'] = i;
+        
+        for(int i = 0; i < s.length(); i++){
+            int c = s.charAt(i) - 'a';
+            if(seen[c]++ > 0)
+                continue;
+            while(!stack.isEmpty() && i < last[stack.peek()] && stack.peek() > c)
+                seen[stack.pop()] = 0;
+            stack.push(c);
+        }
+        
+        StringBuilder sb = new StringBuilder("");
+        for(int i : stack)  sb.append(((char)('a' + i)));
+        return sb.toString();
+    }
+}
+
+Find the index of last occurrence for each character.
+Use a stack to keep the characters for result.
+Loop on each character in the input string S,
+if the current character is smaller than the last character in the stack,
+and the last character exists in the following stream,
+we can pop the last character to get a smaller result.
