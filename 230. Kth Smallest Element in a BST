@@ -1,0 +1,45 @@
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        if(root == null)
+            return -1;
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        inorder_tree(root, queue);
+
+        while(k > 1){
+            queue.poll();
+            k--;
+        }
+        return queue.poll();
+    }
+    
+    public void inorder_tree(TreeNode root, PriorityQueue<Integer> queue){
+        if(root == null)
+            return;
+        inorder_tree(root.left, queue);
+        queue.add(root.val);
+        inorder_tree(root.right, queue);
+    }
+}
+
+
+
+2. Optimized 
+
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        if(root == null)
+            return -1;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while(root != null || !stack.isEmpty()){
+            while(root != null){
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if(--k == 0)    return root.val;
+            root = root.right;
+        }
+        return -1;
+    }
+}
