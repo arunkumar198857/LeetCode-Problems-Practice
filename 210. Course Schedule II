@@ -1,0 +1,47 @@
+class Solution {
+    
+    List<Integer>[] adj;
+    int N;
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        
+        int V = numCourses;
+        N = V - 1;
+        adj = new LinkedList[V];
+        for(int i = 0; i < V; i++)
+            adj[i] = new LinkedList<Integer>();
+        
+        for(int i = 0; i < prerequisites.length; i++)
+            adj[prerequisites[i][1]].add(prerequisites[i][0]);
+        
+        int[] result = new int[V];
+        boolean[] visited = new boolean[V];
+        boolean[] recStack = new boolean[V];
+        for(int i = 0; i < V; i++){
+            if(!visited[i]){
+                if(topoUtil(i, result, visited, recStack))
+                    return new int[0];
+            }
+        }
+        return result;    
+    }
+    
+    public boolean topoUtil(int u, int[] result, boolean[] visited, boolean[] recStack){
+        
+        if(recStack[u])
+            return true;
+        if(visited[u])
+            return false;
+        
+        visited[u] = true;
+        recStack[u] = true;
+        
+        for(int i = 0; i < adj[u].size(); i++){
+            if(topoUtil(adj[u].get(i), result, visited, recStack))
+                return true;
+        }
+        
+        recStack[u] = false;
+        result[N--] = u;
+        return false;
+    }
+}
