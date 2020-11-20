@@ -1,0 +1,50 @@
+class Solution {
+    
+    public List<Integer>[] adj;
+    
+    private boolean checkCycle(int V, int src){
+        
+        boolean[] visited = new boolean[V];
+        boolean[] recStack = new boolean[V];
+        
+        for(int i = 0; i < V; i++)
+            if(!visited[i])
+                if(cyclicUtil(i, visited, recStack))
+                    return true;
+        return false;
+    }
+    
+    public boolean cyclicUtil(int u, boolean[] visited, boolean[] recStack){
+        
+        if(recStack[u])
+            return true;
+        if(visited[u])
+            return false;
+        
+        visited[u] = true;
+        recStack[u] = true;
+        
+        List<Integer> neighbors = adj[u];
+        for(int neighbor : neighbors){
+            if(cyclicUtil(neighbor, visited, recStack))
+                return true;
+        }
+        recStack[u] = false;
+        return false;
+    }
+    
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        
+        adj = new LinkedList[numCourses];
+        for(int i = 0; i < numCourses; i++)
+            adj[i] = new LinkedList<Integer>();
+        
+        for(int i = 0; i < prerequisites.length; i++)
+            adj[prerequisites[i][0]].add(prerequisites[i][1]);
+        
+        
+        if(checkCycle(numCourses, 0))
+            return false;
+        return true;
+    }
+}
