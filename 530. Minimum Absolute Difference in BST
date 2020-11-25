@@ -1,0 +1,20 @@
+class Solution {
+    public int getMinimumDifference(TreeNode root) {
+        int temp[] = {-1, Integer.MAX_VALUE};
+        inorder(root, temp);
+        return temp[1];
+    }
+    
+    public int[] inorder(TreeNode root, int[] temp){
+        int prev = temp[0];
+        int res = temp[1];
+        if(root == null)
+            return temp;
+        int[] left = inorder(root.left, temp);
+        if(temp[0] != -1)
+            res = Math.min(left[1], root.val - left[0]);
+        temp[0] = root.val;
+        temp[1] = res;
+        return inorder(root.right, temp);
+    }
+}
